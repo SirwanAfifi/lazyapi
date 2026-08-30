@@ -5,6 +5,8 @@ edition = "2024"
 rust-version = "1.88"
 description = "A keyboard-first terminal API workbench for OpenAPI services"
 license = "MIT"
+repository = "https://github.com/SirwanAfifi/lazyapi"
+homepage = "https://github.com/SirwanAfifi/lazyapi"
 
 [dependencies]
 chrono = { version = "0.4", default-features = false, features = ["clock"] }
@@ -24,3 +26,7 @@ tempfile = "3.20"
 [profile.release]
 lto = "thin"
 strip = true
+
+[profile.dist]
+inherits = "release"
+lto = "thin"

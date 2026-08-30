@@ -1,0 +1,10 @@
+[workspace]
+members = ["cargo:."]
+
+[dist]
+cargo-dist-version = "0.32.0"
+ci = "github"
+installers = ["homebrew"]
+targets = ["aarch64-apple-darwin", "x86_64-apple-darwin"]
+tap = "SirwanAfifi/homebrew-tap"
+publish-jobs = ["homebrew"]
