@@ -1,25 +1,92 @@
 openapi: 3.0.3
 info:
-  title: Test API
+  title: LazyAPI Sample
   version: 1.0.0
+tags:
+  - name: users
 paths:
   /users:
     get:
+      operationId: listUsers
       summary: List users
+      tags: [users]
       responses:
         "200":
           description: Successful response
+          content:
+            application/json:
+              example:
+                - id: 1
+                  name: Ada Lovelace
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
     post:
-      summary: Create user
+      operationId: createUser
+      summary: Create a user
+      tags: [users]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewUser"
       responses:
         "201":
           description: User created
+          content:
+            application/json:
+              example:
+                id: 2
+                name: Grace Hopper
+              schema:
+                $ref: "#/components/schemas/User"
   /users/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
     get:
-      summary: Get user
+      operationId: getUser
+      summary: Get a user
+      tags: [users]
       responses:
         "200":
           description: User found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
         "404":
           description: User not found
-
+          content:
+            application/json:
+              example:
+                error: user not found
+              schema:
+                type: object
+                required: [error]
+                properties:
+                  error:
+                    type: string
+components:
+  schemas:
+    NewUser:
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
+          example: Ada Lovelace
+    User:
+      allOf:
+        - $ref: "#/components/schemas/NewUser"
+        - type: object
+          required: [id]
+          properties:
+            id:
+              type: integer
+              example: 1
